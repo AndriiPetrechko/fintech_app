@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Currency {
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now()) @updatedAt
+  pair              String            @unique
+  value             Float?
+
+  @@map("currency")
+}
+
+model User {
+  id                Int               @id @default(autoincrement())
+  email             String            @unique
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now()) @updatedAt
+  cryptoCurrency    CryptoCurrency?   @default(BTC)
+  cryptoBalance     Float?
+  fiatCurrency      FiatCurrency?     @default(USD)
+  fiatBalance       Float?
+
+  @@map("user")
+}
+
+enum CryptoCurrency {
+  BTC
+  BCH
+  ETH
+}
+
+enum FiatCurrency {
+  USD
+  EUR 
+  CAD 
+  JPY 
+  GBP 
+  CHF 
+  AUD 
+}
