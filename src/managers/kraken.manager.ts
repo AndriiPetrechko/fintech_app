@@ -1,17 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as WebSocket from 'ws';
 import { KrakenSubscribtionReqDto } from 'src/util/dto.entites';
-import { ExchangerateService } from 'src/exchangerate/exchangerate.service';
+import { ExchangeService } from 'src/exchange/exchange.service';
 
 const KRAKEN_WS_URL = 'wss://ws.kraken.com';
-const BTC_to_FIAT_CURRENCY = [
-  'BTC/USD',
-  'BTC/EUR',
-  'BTC/CAD',
-  'BTC/JPY',
-  'BTC/GBP',
-  'BTC/CHF',
-  'BTC/AUD',
+const XBT_to_FIAT_CURRENCY = [
+  'XBT/USD',
+  'XBT/EUR',
+  'XBT/CAD',
+  'XBT/JPY',
+  'XBT/GBP',
+  'XBT/CHF',
+  'XBT/AUD',
 ];
 const BCH_to_FIAT_CURRENCY = [
   'BCH/USD',
@@ -31,7 +31,7 @@ const ETH_to_FIAT_CURRENCY = [
 ];
 
 const PAIR_CRYPTO_FIAT_CURRENCY: Array<string> = [].concat(
-  BTC_to_FIAT_CURRENCY,
+  XBT_to_FIAT_CURRENCY,
   BCH_to_FIAT_CURRENCY,
   ETH_to_FIAT_CURRENCY,
 );
@@ -42,7 +42,7 @@ export class KrakenManager {
 
   private ws = new WebSocket(KRAKEN_WS_URL);
 
-  constructor(private exchangeRateService: ExchangerateService) {
+  constructor(private exchangeService: ExchangeService) {
     this.ws.on('open', () => {
       this.logger.log('Open Kraken Websockets connection');
       this.sendRequest({
@@ -90,14 +90,14 @@ export class KrakenManager {
 
     if (!res.event) {
       //this.logger.log(`New crypto data: ${res[3]} => ${res[1].o[0]}`);
-      const dbPair = await this.exchangeRateService.findCurrencyByPair(res[3]);
+      const dbPair = await this.exchangeService.findCurrencyByPair(res[3]);
       if (!dbPair) {
-        await this.exchangeRateService.createCurrency({
+        await this.exchangeService.createCurrency({
           pair: res[3],
           value: parseFloat(res[1].o[0]),
         });
       } else {
-        await this.exchangeRateService.updateCurrency({
+        await this.exchangeService.updateCurrency({
           pair: res[3],
           value: parseFloat(res[1].o[0]),
         });

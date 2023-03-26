@@ -22,7 +22,7 @@ model User {
   email             String            @unique
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @default(now()) @updatedAt
-  cryptoCurrency    CryptoCurrency?   @default(BTC)
+  cryptoCurrency    CryptoCurrency?   @default(XBT)
   cryptoBalance     Float?
   fiatCurrency      FiatCurrency?     @default(USD)
   fiatBalance       Float?
@@ -31,7 +31,7 @@ model User {
 }
 
 enum CryptoCurrency {
-  BTC
+  XBT
   BCH
   ETH
 }

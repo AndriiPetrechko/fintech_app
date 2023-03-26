@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "CryptoCurrency" AS ENUM ('BTC', 'BCH', 'ETH');
+CREATE TYPE "CryptoCurrency" AS ENUM ('XBT', 'BCH', 'ETH');
 
 -- CreateEnum
 CREATE TYPE "FiatCurrency" AS ENUM ('USD', 'EUR', 'CAD', 'JPY', 'GBP', 'CHF', 'AUD');
@@ -21,7 +21,7 @@ CREATE TABLE "user" (
     "email" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "cryptoCurrency" "CryptoCurrency" DEFAULT 'BTC',
+    "cryptoCurrency" "CryptoCurrency" DEFAULT 'XBT',
     "cryptoBalance" DOUBLE PRECISION,
     "fiatCurrency" "FiatCurrency" DEFAULT 'USD',
     "fiatBalance" DOUBLE PRECISION,
