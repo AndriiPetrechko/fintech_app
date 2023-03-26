@@ -12,7 +12,7 @@ export class UserService {
     private exchangeService: ExchangeService,
   ) {}
 
-  async createUser(input: NewUserRequestDto): Promise<User> {
+  public async createUser(input: NewUserRequestDto): Promise<User> {
     if (!input.email || !input.cryptoCurrency) {
       throw new HttpException(
         'Email address and crypto symbol is required',
@@ -31,7 +31,7 @@ export class UserService {
     });
   }
 
-  async getUserProfile(userId: number): Promise<User> {
+  public async getUserProfile(userId: number): Promise<User> {
     if (!userId) {
       throw new HttpException(
         'User ID is required! User is not found',
@@ -43,5 +43,29 @@ export class UserService {
       throw new HttpException('User is not found', HttpStatus.BAD_REQUEST);
     }
     return user;
+  }
+
+  public async midnightUpdateUsersBalance(): Promise<void> {
+    const users = await this.prisma.user.findMany();
+    await Promise.all(
+      users.map(async (user) => {
+        const actualRate = await this.exchangeService.getCryptoAssetRate(
+          `${user.cryptoCurrency}/${user.fiatCurrency}`,
+        );
+        user.fiatBalance = user.cryptoBalance * actualRate[0].value;
+        console.log(
+          `Balance of ${user.email} => ${user.fiatBalance} (${user.fiatCurrency})`,
+        );
+        await this.prisma.user.update({
+          where: {
+            email: user.email,
+          },
+          data: {
+            fiatBalance: user.fiatBalance,
+          },
+        });
+      }),
+    );
+    return;
   }
 }

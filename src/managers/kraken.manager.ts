@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as WebSocket from 'ws';
-import { KrakenSubscribtionReqDto } from 'src/util/dto.entites';
 import { ExchangeService } from 'src/exchange/exchange.service';
+import { KrakenSubscribtionReqDto } from 'src/util/dto.entites';
 
 const KRAKEN_WS_URL = 'wss://ws.kraken.com';
 const XBT_to_FIAT_CURRENCY = [
@@ -44,7 +44,7 @@ export class KrakenManager {
 
   constructor(private exchangeService: ExchangeService) {
     this.ws.on('open', () => {
-      this.logger.log('Open Kraken Websockets connection');
+      this.logger.log('Connect to Kraken Websockets successful');
       this.sendRequest({
         event: 'subscribe',
         pair: PAIR_CRYPTO_FIAT_CURRENCY,
@@ -58,11 +58,11 @@ export class KrakenManager {
     this.ws.on('message', this.onMessage.bind(this));
   }
 
-  sendRequest(data: KrakenSubscribtionReqDto) {
+  sendRequest(data: KrakenSubscribtionReqDto): void {
     this.ws.send(JSON.stringify(data));
   }
 
-  async onMessage(data: WebSocket.RawData) {
+  async onMessage(data: WebSocket.RawData): Promise<void> {
     const res = JSON.parse(data.toString());
     /**
      * https://docs.kraken.com/websockets/#exampleapi
@@ -105,7 +105,9 @@ export class KrakenManager {
     }
   }
 
-  closeConnection() {
+  closeConnection(): void {
     this.ws.close();
+    this.logger.log('Disconnect from Kraken webSockets');
+    return;
   }
 }

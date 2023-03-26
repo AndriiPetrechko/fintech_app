@@ -18,7 +18,7 @@ export class UserController {
   }
 
   @Post('create')
-  async signupUser(
+  async createUser(
     @Body()
     userData: NewUserRequestDto,
   ) {

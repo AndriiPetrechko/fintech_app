@@ -1,8 +1,8 @@
 {
   "name": "fintech_app",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Test task",
+  "author": "Andrii Petrechko",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -22,6 +22,7 @@
     "migration:run": "npx prisma migrate dev"
   },
   "dependencies": {
+    "@nestjs/bull": "^0.6.3",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -30,6 +31,7 @@
     "@types/ws": "^8.5.4",
     "joi": "^17.9.1",
     "lodash": "^4.17.21",
+    "redis": "^4.6.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
