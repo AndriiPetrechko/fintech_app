@@ -48,7 +48,6 @@ export class CronManager {
     if (!_.get(job, 'opts.repeat.key')) {
       return null;
     }
-    console.log(job);
     return (job.opts.repeat as any).key;
   }
 }

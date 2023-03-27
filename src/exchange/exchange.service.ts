@@ -18,12 +18,9 @@ export class ExchangeService {
     ) {
       throw new HttpException('Invalid crypto symbol', HttpStatus.BAD_REQUEST);
     }
-    const StringIsNumber = (value: string) => isNaN(Number(value)) === false;
-    const assets = Object.keys(FiatCurrency)
-      .filter(StringIsNumber)
-      .map((key) => {
-        return crypto_symbol.concat('/', FiatCurrency[key]);
-      });
+    const assets = Object.keys(FiatCurrency).map((key) => {
+      return crypto_symbol.concat('/', FiatCurrency[key]);
+    });
     const res = await this.prisma.currency.findMany({
       where: { pair: { in: assets } },
     });
