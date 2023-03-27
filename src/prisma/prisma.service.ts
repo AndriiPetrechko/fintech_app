@@ -4,9 +4,7 @@ import {
   OnModuleInit,
   Logger,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { Config } from 'src/util/config';
 
 const prismaOptions: Prisma.PrismaClientOptions = {
   log: [{ emit: 'event', level: 'query' }],
@@ -18,7 +16,7 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   private readonly logger = new Logger(PrismaService.name);
-  constructor(private readonly configService: ConfigService<Config>) {
+  constructor() {
     super(prismaOptions);
   }
 
