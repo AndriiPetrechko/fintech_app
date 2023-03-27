@@ -40,8 +40,10 @@ $ npm run start:dev
 ### 1. Exchange
 
 - GET /api/exchange/get_currency
-  Query params: ?crypto_symbol=XBT
-  Example success response:
+
+Query params: ?crypto_symbol=XBT
+
+Example success response:
 
 ```{
     "statusCode": 200,
@@ -96,8 +98,10 @@ Example response for bad request:
 ```
 
 - GET /api/exchange/get_rate
-  Query params: ?pair=XBT/USD, XBT/EUR
-  Example response:
+
+Query params: ?pair=XBT/USD, XBT/EUR
+
+Example response:
 
 ```
 {
@@ -172,8 +176,10 @@ Example response:
 ```
 
 - GET /api/user/profile
-  Query params: ?userId=1
-  Example success response:
+
+Query params: ?userId=1
+
+Example success response:
 
 ```
 {
