@@ -1,4 +1,4 @@
-# Test task for NodeJS Developer
+## My project for financial company
 
 ## Environment example
 
